@@ -1,10 +1,12 @@
 //import { useState } from 'react';
 
+import Sidebar_left from './components/sidebar/SidebarLeft';
+
 function App() {
   return (
-    <>
-      <h1 className="text-2xl bg-gray-600">MICROSOFT CLONE</h1>
-    </>
+    <div className="flex h-screen w-full overflow-auto overscroll-contain">
+      <Sidebar_left />
+    </div>
   );
 }
 
