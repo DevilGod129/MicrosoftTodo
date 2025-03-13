@@ -22,8 +22,8 @@ function Sidebar_left() {
   let groups = useSelector((state: RootState) => state.Group.groups);
   // let groups = useSelector((state) => state.);
   return (
-    <div className="h-full w-auto bg-[#1D2125] px-4 py-3 flex-col flex justify-between ">
-      <div>
+    <div className="h-full w-auto bg-[#1D2125] px-4 py-3 flex-col flex justify-between relative">
+      <div className="flex-grow overflow-y-auto">
         <div className="flex min-h-15 pb-8 ">
           {/* <!-- Circle --> */}
           <div className="h-14 w-14 rounded-full bg-blue-400 px-4 py-3 text-2xl text-white">
@@ -82,7 +82,7 @@ function Sidebar_left() {
         </div>
       </div>
 
-      <div className="text-white w-full flex min-h-5 flex-row  justify-between items-center gap-2 ">
+      <div className="text-white w-72 flex min-h-5 flex-row  justify-between items-center gap-2 fixed bottom-0 left-0 p-2 bg-[#1D2125]">
         <div className="flex hover:bg-gray-700 w-full p-2 rounded-lg">
           <PlusIcon />
           <span>New List</span>
