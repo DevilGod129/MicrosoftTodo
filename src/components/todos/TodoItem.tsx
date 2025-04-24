@@ -2,6 +2,7 @@ import { Star } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setActiveTodo } from '../../features/activeSlice';
+import { AppDispatch } from '../../app/store';
 
 const TodoItem = () => {
   const [checked, setChecked] = useState(false);
@@ -9,8 +10,7 @@ const TodoItem = () => {
   const num = 123;
   // setting up redux....
 
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <div className="bg-[#2D2F2F] hover:bg-[#3a3e3e] backdrop-blur-sm rounded-lg px-4 py-3 flex items-center gap-3">
       <div

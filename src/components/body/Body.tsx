@@ -2,8 +2,14 @@ import { JSX } from 'react';
 import { Home, ImageIcon, MoreHorizontal } from 'lucide-react';
 import TodoForm from '../todos/TodoForm';
 import TodoItem from '../todos/TodoItem';
+import { useDispatch } from 'react-redux';
+import { setActiveTodo } from '../../features/activeSlice';
 
 function Body() {
+  const dispatch = useDispatch();
+  const left_sidebar_visiblity = () => {
+    dispatch(setActiveTodo({ id: null }));
+  };
   return (
     <div className="relative flex-1 bg-[url(https://i.imgur.com/EDjOfUE.png)]  bg-cover h-full  ">
       <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} />
