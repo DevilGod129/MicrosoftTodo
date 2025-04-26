@@ -1,7 +1,6 @@
 import {
   Calendar1Icon,
   House,
-  PanelLeft,
   PlusIcon,
   SidebarIcon,
   SquareUser,
@@ -16,10 +15,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addGroup } from '../../features/groupSlice';
 import { JSX } from 'react';
 import { AppDispatch, RootState } from '../../app/store';
+import { addList } from '@/features/listSlice';
 
 function Sidebar_left() {
   const dispatch = useDispatch<AppDispatch>();
   let groups = useSelector((state: RootState) => state.Group.groups);
+  let lists = useSelector((state: RootState) => state.List.lists);
   // let groups = useSelector((state) => state.);
   return (
     <div className="h-full w-auto bg-[#272727] px-4 py-3 flex-col flex justify-between relative">
@@ -74,24 +75,27 @@ function Sidebar_left() {
 
           {/* Here new groups will be added.... */}
           {groups.map((group) => (
-            <SidebarLeftItem
-              title={group.name}
-              icon={<PanelLeft className="text-white size-4" />}
-            />
+            <SidebarLeftItem title={group.name} icon={group.icon} />
+          ))}
+          {lists.map((list) => (
+            <SidebarLeftItem title={list.name} icon={list.icon} />
           ))}
         </div>
       </div>
 
-      <div className="text-white w-72 flex min-h-5 flex-row  justify-between items-center gap-2 fixed bottom-0 left-0 p-2 bg-[#333333]">
-        <div className="flex hover:bg-[#333333] w-full p-2 rounded-lg">
-          <PlusIcon />
+      <div className="text-white w-72 flex min-h-5 flex-row  justify-between items-center gap-2 fixed bottom-0 left-0 p-2 bg-[#272727]">
+        <div
+          className="flex hover:bg-[#333333] w-full p-2 rounded-lg items-center"
+          onClick={() => dispatch(addList())}
+        >
+          <PlusIcon className="size-5 me-1" />
           <span>New List</span>
         </div>
         <div
-          className="hover:bg-gray-700 flex p-2 rounded-lg"
+          className="hover:bg-[#333333] flex p-2 rounded-lg"
           onClick={() => dispatch(addGroup())}
         >
-          <SidebarIcon />
+          <SidebarIcon className="size-5" />
         </div>
       </div>
     </div>
@@ -110,7 +114,7 @@ const SidebarLeftItem = ({
   tasks?: string;
 }) => {
   return (
-    <div className="flex hover:bg-[#333333] mb-3 hover:rounded-md p-2 items-center font-extralight ">
+    <div className="flex hover:bg-[#333333] mb-1 hover:rounded-md p-2 items-center font-extralight ">
       {icon} <div className="text-white px-4  ">{title}</div>
       {/* <span classNameName="ml-auto text-sm rounded-full bg-[#3c444c] h-3 w-3 px-2 py-2 text-white ">{num}</span> */}
       {tasks ? (

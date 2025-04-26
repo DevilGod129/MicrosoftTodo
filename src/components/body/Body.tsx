@@ -1,15 +1,11 @@
-import { JSX } from 'react';
 import { Home, ImageIcon, MoreHorizontal } from 'lucide-react';
+import { JSX } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 import TodoForm from '../todos/TodoForm';
 import TodoItem from '../todos/TodoItem';
-import { useDispatch } from 'react-redux';
-import { setActiveTodo } from '../../features/activeSlice';
 
 function Body() {
-  const dispatch = useDispatch();
-  const left_sidebar_visiblity = () => {
-    dispatch(setActiveTodo({ id: null }));
-  };
   return (
     <div className="relative flex-1 bg-[url(https://i.imgur.com/EDjOfUE.png)]  bg-cover h-full  ">
       <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} />
@@ -20,6 +16,7 @@ function Body() {
 export default Body;
 
 const BodyItem = ({ icon, title }: { icon?: JSX.Element; title: string }) => {
+  let todos = useSelector((state: RootState) => state.Todo.todos);
   return (
     <>
       <header className="p-6 flex items-center justify-between text-white">
@@ -35,10 +32,14 @@ const BodyItem = ({ icon, title }: { icon?: JSX.Element; title: string }) => {
       </header>
 
       <div className="  px-4 space-y-1">
-        <TodoItem />
+        {todos.map((todo) => (
+          <div key={todo.todo_id}>
+            <TodoItem todo={todo} />
+          </div>
+        ))}
       </div>
 
-      <div className="absolute bottom-20 px-4 space-y-1  w-full">
+      <div className="absolute bottom-20 px-2 space-y-1 w-full">
         <TodoForm />
       </div>
     </>

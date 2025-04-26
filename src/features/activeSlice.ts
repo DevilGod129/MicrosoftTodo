@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 interface ActiveSlice {
-    active_todo_id : string,
-    visible :boolean,
+    active_todo_id : string| undefined,
 }
 const initialState:ActiveSlice ={
     active_todo_id: '',
-    visible: false,
 }
 
 const activeSlice =  createSlice({
@@ -13,9 +11,14 @@ const activeSlice =  createSlice({
     initialState,
     reducers: {
         setActiveTodo: (state,action) => {
-            const {todo_id} = action.payload
-            state.active_todo_id = todo_id
-            state.visible = !state.visible
+            const {id} = action.payload
+            if(state.active_todo_id === id){
+                state.active_todo_id = undefined;
+
+            }else{
+
+                state.active_todo_id = id
+            }
         },
         
     }

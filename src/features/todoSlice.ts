@@ -2,13 +2,13 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 interface TodoSlice {
     todos : NewTodos[],
 }
-interface NewTodos {
+export interface NewTodos {
     todo_id: string;
     text: string;
     completed: boolean;
     subtodo: NewSubTodo[],
     list_id:string,
-    timestamp: Date,
+    timestamp: string,
     important: boolean, 
 }
 interface NewSubTodo {
@@ -26,14 +26,14 @@ export const TodoSlice = createSlice({
     reducers:{
         // Addding todo to the string
         addTodo: (state,action) => {
-            const {list_id } = action.payload
+            const {list_id,text } = action.payload
             const add_new_todo: NewTodos = {
                 todo_id: nanoid(),
-                text: action.payload(),
+                text: text,
                 completed: false,
                 subtodo:[],
                 list_id: list_id, // list-id ko path aauxa yesma.......//
-                timestamp: new Date(),
+                timestamp: Date.now().toString(),
                 important: false,
             }
             state.todos.push(add_new_todo)
@@ -49,7 +49,7 @@ export const TodoSlice = createSlice({
         editTodo: (state,action) => {
             const {id,text} =action.payload
             state.todos = state.todos.map((todo) => todo.todo_id === id ? {...todo,text:text}:todo)
-            state.todos = state.todos.map((todo) => todo.todo_id === id ? {...todo,timestamp:new Date()}:todo)
+            state.todos = state.todos.map((todo) => todo.todo_id === id ? {...todo,timestamp:new Date().toISOString()}:todo)
 
 
         },
@@ -61,7 +61,6 @@ export const TodoSlice = createSlice({
             state.todos = state.todos.map((todo) => todo.todo_id === id ? {...todo,completed: !todo.completed}:todo)
         },
 
-        //set the todo as important....
 
         importantTodo: (state,action: {
             payload : {

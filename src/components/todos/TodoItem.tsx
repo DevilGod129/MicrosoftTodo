@@ -1,14 +1,18 @@
 import { Star } from 'lucide-react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTodo } from '../../features/activeSlice';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
+import { NewTodos } from '@/features/todoSlice';
 
-const TodoItem = () => {
+const TodoItem = ({ todo }: { todo: NewTodos }) => {
   const [checked, setChecked] = useState(false);
   const [starred, setStarred] = useState(false);
-  const num = 123;
-  // setting up redux....
+  const todoId = todo.todo_id;
+
+  const handleClick = () => {
+    dispatch(setActiveTodo({ id: todoId }));
+  };
 
   const dispatch = useDispatch<AppDispatch>();
   return (
@@ -20,11 +24,8 @@ const TodoItem = () => {
         {checked && <div className="w-3 h-3 bg-white rounded-full" />}
       </div>
 
-      <span
-        className="flex-1 text-white/90"
-        onClick={() => dispatch(setActiveTodo({ id: num }))}
-      >
-        hello
+      <span className="flex-1 text-white/90" onClick={handleClick}>
+        {todo.text}
       </span>
 
       <Star

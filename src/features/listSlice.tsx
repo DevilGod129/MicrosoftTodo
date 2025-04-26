@@ -1,46 +1,51 @@
 import { createSlice,nanoid } from "@reduxjs/toolkit";
+import { AlignJustify } from 'lucide-react';
+import { JSX } from "react";
 interface ListSlice {
-    groups: NewList[],
+    lists: NewList[],
     availableIds: number[],
 }
 interface NewList {
-    num_id :number,
+    num_id ?:number,
     name :string,
     id: string,
+    icon:JSX.Element
 }
 const initialState:ListSlice = {
-    groups : [],
+    lists : [],
     availableIds: Array.from({ length: 101 }, (_, i) => i), // Store available IDs,
 }
 
-export const GroupSlice = createSlice({
-    name:'Group',
+export const ListSlice = createSlice({
+    name:'List',
     initialState,
     reducers: {
         // add new group.........
-        addGroup: (state) => {
+        addList: (state) => {
             const new_id = state.availableIds[0];
             state.availableIds = state.availableIds.filter((num) => num!== new_id)
 
-            const add_new_group:NewList = {
+            const add_new_list:NewList = {
                 num_id : new_id,
                 name: (new_id === 0 ? `Untitled list` : `Untitled list (${new_id})`),
                 id: nanoid(),
+                icon: < AlignJustify className="text-blue-600 size-4" />
                 
             }
-            state.groups.push(add_new_group)
+            
+            state.lists.push(add_new_list)
         },
 
-        renameGroup: (state,action) => {
+        renameList: (state,action) => {
             const {id,new_name,num_id} = action.payload
-            state.groups =state.groups.map((grp) => grp.id === id ? {...grp,name:new_name}: grp)
+            state.lists =state.lists.map((list) => list.id === id ? {...list,name:new_name}: list)
             state.availableIds.push(num_id)
             state.availableIds.sort((a, b) => a - b);
         },
 
-        deleteGroup: (state,action) => {
+        deleteList: (state,action) => {
             const {id,num_id} = action.payload
-            state.groups = state.groups.filter((grp) => grp.id!== id)
+            state.lists = state.lists.filter((list) => list.id!== id)
             state.availableIds.push(num_id)
             state.availableIds.sort((a, b) => a - b);
         }
@@ -49,5 +54,5 @@ export const GroupSlice = createSlice({
     }
 )
 
-export const {addGroup,renameGroup,deleteGroup} = GroupSlice.actions
-export default GroupSlice.reducer
+export const {addList,renameList,deleteList} = ListSlice.actions
+export default ListSlice.reducer
