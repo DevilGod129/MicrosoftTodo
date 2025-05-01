@@ -1,6 +1,3 @@
-// name :string,
-//     id: string,
-//     icon:JSX.Element
 import {
   SunIcon,
   StarIcon,
@@ -14,6 +11,7 @@ type NewList = {
   name: string;
   id: string;
   icon: JSX.Element;
+  num?: number;
 };
 
 export const listElements: NewList[] = [
@@ -41,5 +39,6 @@ export const listElements: NewList[] = [
     name: 'Tasks',
     id: '5000',
     icon: <House className="text-white size-4" id="task" />,
+    num: 0,
   },
 ];

@@ -1,9 +1,10 @@
-import { PlusIcon, SidebarIcon, PanelLeft, AlignJustify } from 'lucide-react';
+import { AlignJustify, PanelLeft, PlusIcon, SidebarIcon } from 'lucide-react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { listElements } from '@/lib/data';
+import { setActiveList } from '@/features/activeList';
 import { addList } from '@/features/listSlice';
+import { listElements } from '@/lib/data';
 import { JSX } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { addGroup } from '../../features/groupSlice';
 
@@ -12,6 +13,7 @@ function SidebarLeft() {
   let groups = useSelector((state: RootState) => state.Group.groups);
   let lists = useSelector((state: RootState) => state.List.lists);
   // let groups = useSelector((state) => state.);
+
   return (
     <div className="h-full bg-[#272727] px-4 py-3 flex-col flex justify-between rounded-none overflow-hidden relative">
       <div className="flex-grow overflow-y-clip">
@@ -30,7 +32,13 @@ function SidebarLeft() {
 
         <div className="min-h-fit   gap-5  ">
           {listElements.map((list) => (
-            <SidebarLeftItem key={list.id} title={list.name} icon={list.icon} />
+            <SidebarLeftItem
+              key={list.id}
+              listkey={list.id}
+              title={list.name}
+              icon={list.icon}
+              num={list.num}
+            />
           ))}
 
           <hr className=" h-0.25 w-full  bg-gray-200 border-0 dark:bg-gray-600" />
@@ -39,15 +47,17 @@ function SidebarLeft() {
           {groups.map((group) => (
             <SidebarLeftItem
               key={group.id}
+              listkey={group.id}
               title={group.name}
-              icon=<PanelLeft className="text-gray-300 size-4" />
+              icon={<PanelLeft className="text-gray-300 size-4" />}
             />
           ))}
           {lists.map((list) => (
             <SidebarLeftItem
               key={list.id}
+              listkey={list.id}
               title={list.name}
-              icon=<AlignJustify className="text-blue-600 size-4" />
+              icon={<AlignJustify className="text-blue-600 size-4" />}
             />
           ))}
         </div>
@@ -80,15 +90,33 @@ const SidebarLeftItem = ({
   icon,
   title,
   tasks,
+  listkey,
+  num,
 }: {
   icon?: JSX.Element;
   title: string;
   tasks?: string;
+  listkey?: string | undefined;
+  num?: number;
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const handleClick = (key: string | undefined) => {
+    console.log('Clicked listkey: ', key);
+    if (key) {
+      dispatch(setActiveList({ list_id: key }));
+    }
+  };
   return (
-    <div className="flex hover:bg-[#333333] mb-1 hover:rounded-md p-2 items-center font-extralight ">
+    <div
+      className="flex hover:bg-[#333333] mb-1 hover:rounded-md p-2 items-center font-extralight "
+      onClick={() => handleClick(listkey)}
+    >
       {icon} <div className="text-white px-4  ">{title}</div>
-      {/* <span classNameName="ml-auto text-sm rounded-full bg-[#3c444c] h-3 w-3 px-2 py-2 text-white ">{num}</span> */}
+      {typeof num === 'number' && num > 0 && (
+        <span className="ml-auto text-sm flex rounded-full items-center justify center bg-[#3c444c] size-6 px-2 py-2 text-white ">
+          {num}
+        </span>
+      )}
       {tasks ? (
         <div className="ml-auto flex items-center justify-center w-6 h-6  rounded-full bg-[#333333] text-white text-sm">
           {tasks}

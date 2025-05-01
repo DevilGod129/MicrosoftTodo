@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 interface ListId {
-    active_list_id: string;
+    active_list_id: string | null;
+    
 }
 const initialState: ListId ={
-    active_list_id: '',
+    active_list_id: null,
+    
 }
 
 const activeList = createSlice({
@@ -11,8 +13,8 @@ const activeList = createSlice({
     initialState,
     reducers:{
         setActiveList: (state,action) => {
-            const {todo_id} = action.payload
-            state.active_list_id = todo_id
+            const {list_id} = action.payload
+            state.active_list_id = list_id
         },
     }
 })

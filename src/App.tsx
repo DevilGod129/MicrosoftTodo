@@ -50,7 +50,7 @@ function App() {
 
             <ResizablePanel
               defaultSize={20}
-              minSize={15}
+              minSize={16}
               maxSize={25}
               className="m-0 p-0 border-none"
             >

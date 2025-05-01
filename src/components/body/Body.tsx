@@ -4,11 +4,36 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import TodoForm from '../todos/TodoForm';
 import TodoItem from '../todos/TodoItem';
+import { listElements } from '@/lib/data';
 
 function Body() {
+  let groups = useSelector((state: RootState) => state.Group.groups);
+  let lists = useSelector((state: RootState) => state.List.lists);
+  let active_id = useSelector(
+    (state: RootState) => state.ActiveList.active_list_id
+  );
+
+  function renderMessage() {
+    if (!active_id) {
+      return <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} />;
+    }
+    const activeList = listElements.find((list) => list.id === active_id);
+    if (activeList) {
+      return <BodyItem icon={activeList.icon} title={activeList.name} />;
+    }
+    const activeNewList = lists.find((list) => list.id === active_id);
+    if (activeNewList) {
+      return <BodyItem title={activeNewList.name} />;
+    }
+    const activeNewGroup = groups.find((group) => group.id === active_id);
+    if (activeNewGroup) {
+      return <BodyItem title={activeNewGroup.name} />;
+    }
+  }
   return (
-    <div className="relative flex-1 bg-[#272727] bg-[url(https://i.imgur.com/EDjOfUE.png)] bg-cover rounded-lg bg-fixed h-full ">
-      <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} />
+    <div className="relative flex-1 bg-[url(https://i.imgur.com/EDjOfUE.png)] bg-cover rounded-lg bg-fixed h-full ">
+      {renderMessage()}
+      {/* <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} /> */}
     </div>
   );
 }
