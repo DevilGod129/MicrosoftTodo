@@ -15,7 +15,9 @@ function Body() {
 
   function renderMessage() {
     if (!active_id) {
-      return <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} />;
+      return (
+        <BodyItem icon={listElements[0].icon} title={listElements[0].name} />
+      );
     }
     const activeList = listElements.find((list) => list.id === active_id);
     if (activeList) {
@@ -42,10 +44,20 @@ export default Body;
 
 const BodyItem = ({ icon, title }: { icon?: JSX.Element; title: string }) => {
   let todos = useSelector((state: RootState) => state.Todo.todos);
+  let active_id = useSelector(
+    (state: RootState) => state.ActiveList.active_list_id
+  );
+  let filteredTodos;
+  if (active_id) {
+    filteredTodos = todos.filter((todo) => todo.list_id === active_id);
+  } else {
+    active_id = '1000';
+    filteredTodos = todos.filter((todo) => todo.list_id === active_id);
+  }
   return (
     <>
       <header className="p-6 flex items-center justify-between text-white">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           {/* <Home className="w-6 h-6" /> */}
           {icon}
           <h1 className="text-3xl font-semibold">{title}</h1>
@@ -57,7 +69,7 @@ const BodyItem = ({ icon, title }: { icon?: JSX.Element; title: string }) => {
       </header>
 
       <div className="  px-4 space-y-1">
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <div key={todo.todo_id}>
             <TodoItem todo={todo} />
           </div>

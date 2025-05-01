@@ -1,18 +1,25 @@
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { addTodo } from '../../features/todoSlice';
+import { RootState } from '../../app/store';
 
 function TodoForm() {
   const [input, setInput] = useState('');
   const dispatch = useDispatch<AppDispatch>();
+  let active_id = useSelector(
+    (state: RootState) => state.ActiveList.active_list_id
+  );
 
   const add = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (input === null || input.trim() === '') return;
 
-    dispatch(addTodo({ list_id: 123, text: input }));
+    if (!active_id) {
+      dispatch(addTodo({ list_id: '1000', text: input }));
+    }
+    dispatch(addTodo({ list_id: active_id, text: input }));
     setInput('');
   };
   return (

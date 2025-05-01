@@ -11,7 +11,7 @@ type NewList = {
   name: string;
   id: string;
   icon: JSX.Element;
-  num?: number;
+  num?: number | undefined;
 };
 
 export const listElements: NewList[] = [
