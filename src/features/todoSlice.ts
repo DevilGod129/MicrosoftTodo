@@ -41,7 +41,8 @@ export const TodoSlice = createSlice({
 
         // Deleting todo 
         deleteTodo: (state,action) => {
-            state.todos = state.todos.filter((todo) => todo.todo_id !== action.payload )
+            const {id} =action.payload
+            state.todos = state.todos.filter((todo) => todo.todo_id !== id )
             // Here the filter returns back a new array with removed id todo
         },
 

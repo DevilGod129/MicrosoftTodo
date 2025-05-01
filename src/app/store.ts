@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import todoreducer from '../features/todoSlice'
-import listreducer from '../features/listSlice.tsx'
-import groupreducer from '../features/groupSlice.tsx'
+import listreducer from '../features/listSlice.ts'
+import groupreducer from '../features/groupSlice.ts'
 import activereducer from '../features/activeSlice' 
 import activeListreducer from '../features/activeList'
 
@@ -10,7 +10,7 @@ export const store = configureStore({
         Todo: todoreducer,
         List: listreducer,
         Group: groupreducer,
-        ActiveTodo: activereducer,
+        ActiveTodo: activereducer,  
         ActiveList: activeListreducer,
     }
 })

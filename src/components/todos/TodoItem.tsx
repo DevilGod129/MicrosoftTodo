@@ -1,9 +1,9 @@
-import { Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setActiveTodo } from '../../features/activeSlice';
-import { AppDispatch, RootState } from '../../app/store';
 import { NewTodos } from '@/features/todoSlice';
+import { Star } from 'lucide-react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
+import { setActiveTodo } from '../../features/activeSlice';
 
 const TodoItem = ({ todo }: { todo: NewTodos }) => {
   const [checked, setChecked] = useState(false);

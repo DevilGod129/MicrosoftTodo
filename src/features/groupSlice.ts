@@ -1,6 +1,4 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
-import { PanelLeft } from 'lucide-react';
-import { JSX } from 'react';
 // Question: why newgroupd work
 interface GroupSlice {
   groups: NewGroup[];
@@ -10,7 +8,6 @@ interface NewGroup {
   num_id: number;
   name: string;
   id: string;
-  icon: JSX.Element;
 }
 const initialState: GroupSlice = {
   groups: [],
@@ -28,9 +25,8 @@ export const GroupSlice = createSlice({
 
       const add_new_group: NewGroup = {
         num_id: new_id,
-        name: new_id === 0 ? `Untitled list` : `Untitled list (${new_id})`,
+        name: new_id === 0 ? `Untitled Group` : `Untitled Group (${new_id})`,
         id: nanoid(),
-        icon: <PanelLeft className="text-gray-300 size-4" />,
       };
       state.groups.push(add_new_group);
     },

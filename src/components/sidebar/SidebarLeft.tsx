@@ -1,31 +1,21 @@
-import {
-  Calendar1Icon,
-  House,
-  PlusIcon,
-  SidebarIcon,
-  SquareUser,
-  StarIcon,
-  SunIcon,
-  // Search,
-  // HomeIcon,
-} from 'lucide-react';
+import { PlusIcon, SidebarIcon, PanelLeft, AlignJustify } from 'lucide-react';
 
 import { useDispatch, useSelector } from 'react-redux';
-
-import { addGroup } from '../../features/groupSlice';
+import { listElements } from '@/lib/data';
+import { addList } from '@/features/listSlice';
 import { JSX } from 'react';
 import { AppDispatch, RootState } from '../../app/store';
-import { addList } from '@/features/listSlice';
+import { addGroup } from '../../features/groupSlice';
 
-function Sidebar_left() {
+function SidebarLeft() {
   const dispatch = useDispatch<AppDispatch>();
   let groups = useSelector((state: RootState) => state.Group.groups);
   let lists = useSelector((state: RootState) => state.List.lists);
   // let groups = useSelector((state) => state.);
   return (
-    <div className="h-full w-auto bg-[#272727] px-4 py-3 flex-col flex justify-between relative">
-      <div className="flex-grow overflow-y-auto">
-        <div className="flex min-h-15 pb-8 ">
+    <div className="h-full bg-[#272727] px-4 py-3 flex-col flex justify-between rounded-none overflow-hidden relative">
+      <div className="flex-grow overflow-y-clip">
+        <div className="flex min-h-15 pb-8 w-full">
           {/* <!-- Circle --> */}
           <div className="h-14 w-14 rounded-full bg-blue-400 px-4 py-3 text-2xl text-white">
             PP
@@ -33,66 +23,48 @@ function Sidebar_left() {
           <div>
             <div className="px-3 py-2 text-white">
               Prasun Paudel
-              <div className="text-gray-500">paudelprasun@gmail.com</div>
+              <div className="text-gray-500 ">paudelprasun@gmail.com</div>
             </div>
           </div>
         </div>
 
         <div className="min-h-fit   gap-5  ">
-          {/* Search Button.... */}
-          {/* <div classNameName="relative mb-6">
-        <input
-          type="text"
-          placeholder="Search"
-          classNameName="w-full bg-gray-800 text-white rounded-md py-2 pl-8 pr-4 outline-none"
-        />
-        <Search classNameName="w-4 h-4 text-gray-400 absolute left-2 top-3" />
-      </div> */}
-
-          <SidebarLeftItem
-            title={'My Day'}
-            icon={<SunIcon className="text-white size-4" id="my_day" />}
-          />
-          <SidebarLeftItem
-            title={'Important'}
-            icon={<StarIcon className="text-pink-400 size-4" id="imp" />}
-          />
-          <SidebarLeftItem
-            title={'Planned'}
-            icon={<Calendar1Icon className="text-green-400 size-4" id="" />}
-          />
-          <SidebarLeftItem
-            title={'Assigned to me'}
-            icon={<SquareUser className="text-green-500 size-4" />}
-          />
-          <SidebarLeftItem
-            title={'Tasks'}
-            icon={<House className="text-gray-400 size-4" />}
-            tasks={`${3}`}
-          />
+          {listElements.map((list) => (
+            <SidebarLeftItem key={list.id} title={list.name} icon={list.icon} />
+          ))}
 
           <hr className=" h-0.25 w-full  bg-gray-200 border-0 dark:bg-gray-600" />
 
           {/* Here new groups will be added.... */}
           {groups.map((group) => (
-            <SidebarLeftItem title={group.name} icon={group.icon} />
+            <SidebarLeftItem
+              key={group.id}
+              title={group.name}
+              icon=<PanelLeft className="text-gray-300 size-4" />
+            />
           ))}
           {lists.map((list) => (
-            <SidebarLeftItem title={list.name} icon={list.icon} />
+            <SidebarLeftItem
+              key={list.id}
+              title={list.name}
+              icon=<AlignJustify className="text-blue-600 size-4" />
+            />
           ))}
         </div>
       </div>
 
-      <div className="text-white w-72 flex min-h-5 flex-row  justify-between items-center gap-2 fixed bottom-0 left-0 p-2 bg-[#272727]">
+      <div
+        className={`text-white flex min-h-5 flex-row  justify-between items-center  bottom-0 left-0 p-2 bg-[#272727] `}
+      >
         <div
-          className="flex hover:bg-[#333333] w-full p-2 rounded-lg items-center"
+          className="flex hover:bg-[#333333] w-full p-2 rounded items-center"
           onClick={() => dispatch(addList())}
         >
           <PlusIcon className="size-5 me-1" />
           <span>New List</span>
         </div>
         <div
-          className="hover:bg-[#333333] flex p-2 rounded-lg"
+          className="hover:bg-[#333333] flex p-2 rounded"
           onClick={() => dispatch(addGroup())}
         >
           <SidebarIcon className="size-5" />
@@ -102,7 +74,7 @@ function Sidebar_left() {
   );
 }
 
-export default Sidebar_left;
+export default SidebarLeft;
 
 const SidebarLeftItem = ({
   icon,

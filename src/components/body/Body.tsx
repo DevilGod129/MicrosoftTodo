@@ -7,7 +7,7 @@ import TodoItem from '../todos/TodoItem';
 
 function Body() {
   return (
-    <div className="relative flex-1 bg-[url(https://i.imgur.com/EDjOfUE.png)]  bg-cover h-full  ">
+    <div className="relative flex-1 bg-[#272727] bg-[url(https://i.imgur.com/EDjOfUE.png)] bg-cover rounded-lg bg-fixed h-full ">
       <BodyItem icon={<Home className="w-6 h-6" />} title={'Tasks'} />
     </div>
   );
