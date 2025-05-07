@@ -1,9 +1,9 @@
 import {
-  SunIcon,
-  StarIcon,
   Calendar1Icon,
-  SquareUser,
   House,
+  SquareUser,
+  StarIcon,
+  SunIcon,
 } from 'lucide-react';
 import { JSX } from 'react';
 
@@ -13,6 +13,9 @@ type NewList = {
   icon: JSX.Element;
   num?: number | undefined;
 };
+
+// let todos = useSelector((state: RootState) => state.Todo.todos);
+// let num = todos.filter((todo) => todo.list_id === '5000').length;
 
 export const listElements: NewList[] = [
   {

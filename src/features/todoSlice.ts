@@ -8,6 +8,7 @@ export interface NewTodos {
     completed: boolean;
     subtodo: NewSubTodo[],
     list_id:string,
+    imp_list_id: string | null,
     timestamp: string,
     important: boolean, 
 }
@@ -33,6 +34,7 @@ export const TodoSlice = createSlice({
                 completed: false,
                 subtodo:[],
                 list_id: list_id, // list-id ko path aauxa yesma.......//
+                imp_list_id:null,
                 timestamp: Date.now().toString(),
                 important: false,
             }
@@ -60,6 +62,7 @@ export const TodoSlice = createSlice({
         toggleTodo: (state,action) =>{
             const {id} =action.payload
             state.todos = state.todos.map((todo) => todo.todo_id === id ? {...todo,completed: !todo.completed}:todo)
+            
         },
 
 
@@ -70,6 +73,7 @@ export const TodoSlice = createSlice({
         }) => {
             const {todo_id}  = action.payload
             state.todos = state.todos.map((obj) => obj.todo_id=== todo_id ? {...obj,important:!state.todos}: obj)
+            state.todos = state.todos.map((todo) => todo.todo_id === todo_id ? {...todo,imp_list_id:'2000'}:todo)
         },
 
         // substeps: 

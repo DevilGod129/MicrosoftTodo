@@ -40,7 +40,7 @@ function Sidebarhidden({ todo_id }: any) {
             {/* First row */}
             <div className="p-3 rounded-lg flex gap-3 backdrop-blur-sm  items-center">
               <div
-                className="flex items-center justify-center w-5 h-5 rounded-full border border-white/30 cursor-pointer hover:bg-white/10"
+                className="flex items-center justify-center size-4 rounded-full border border-white/30 cursor-pointer hover:bg-white/10"
                 onClick={() => setChecked(!checked)}
               >
                 {checked && <div className="w-3 h-3 bg-white rounded-full" />}
@@ -94,8 +94,8 @@ export default Sidebarhidden;
 const SidebarhiddenItem = ({ text }: { text?: string }) => {
   return (
     <div className="flex items-center justify-around gap-3  rounded hover:bg-[#3a3a3a] ">
-      <div className="flex items-center w-full p-2 rounded-lg  transition-colors duration-200">
-        <div className="flex items-center justify-center w-6 h-6 rounded-full border border-white/30 cursor-pointer hover:bg-white/10 transition-colors duration-200"></div>
+      <div className="flex items-center justify-center w-full p-2 rounded-lg  transition-colors duration-200">
+        <div className="flex items-center justify-center size-[15px] rounded-full border border-white/30 cursor-pointer hover:bg-white/10 transition-colors duration-200"></div>
         <div className="flex-1 px-4 text-white text-sm font-medium">{text}</div>
       </div>
 

@@ -4,7 +4,7 @@ interface ListId {
     
 }
 const initialState: ListId ={
-    active_list_id: null,
+    active_list_id: '1000',
     
 }
 
