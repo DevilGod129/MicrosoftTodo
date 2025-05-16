@@ -68,19 +68,29 @@ export const TodoSlice = createSlice({
 
         importantTodo: (state,action: {
             payload : {
-                todo_id :string
+                todo_id :string,
+                imp:boolean;
             }
         }) => {
-            const {todo_id}  = action.payload
-            state.todos = state.todos.map((obj) => obj.todo_id=== todo_id ? {...obj,important:!state.todos}: obj)
-            state.todos = state.todos.map((todo) => todo.todo_id === todo_id ? {...todo,imp_list_id:'2000'}:todo)
+            const {todo_id,imp}  = action.payload
+            
+                state.todos = state.todos.map((obj) => obj.todo_id=== todo_id ? {...obj,important:imp}: obj)
+                if(imp){
+
+                    state.todos = state.todos.map((todo) => todo.todo_id === todo_id ? {...todo,imp_list_id:'2000'}:todo)
+                }
+                else{
+                    state.todos = state.todos.map((todo) => todo.todo_id === todo_id ? {...todo,imp_list_id:''}:todo)
+                }
+            
+            
         },
 
         // substeps: 
 
         add_sub_todo: (state,action : {
             payload : {
-                todoId:string,
+                todoId:string | undefined,
                 textContent:string
 
 
@@ -143,7 +153,7 @@ export const TodoSlice = createSlice({
         
         toggle_sub_todo: (state,action:{
             payload:{
-                TodoId : string,
+                TodoId : string |undefined,
                 subTodoId : string,
             }
         }) =>{

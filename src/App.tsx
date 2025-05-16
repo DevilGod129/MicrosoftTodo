@@ -25,8 +25,16 @@ function App() {
   const todo_id = useSelector(
     (state: RootState) => state.ActiveTodo.active_todo_id
   );
+  useEffect(() => {
+    const root = window.document.documentElement;
+
+    root.classList.add('dark');
+  });
   return (
-    <div className="flex h-screen w-full overflow-auto  bg-[#272727] overscroll-contain">
+    <div
+      className="flex h-screen w-full overflow-auto  bg-[#272727] overscroll-contain"
+      data-theme="dark"
+    >
       <ResizablePanelGroup direction="horizontal" className=" w-full m-0 p-0 ">
         <ResizablePanel
           defaultSize={20}

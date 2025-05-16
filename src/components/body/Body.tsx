@@ -6,6 +6,15 @@ import { RootState } from '../../app/store';
 import TodoForm from '../todos/TodoForm';
 import TodoItem from '../todos/TodoItem';
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
 function Body() {
   let groups = useSelector((state: RootState) => state.Group.groups);
   let lists = useSelector((state: RootState) => state.List.lists);
@@ -70,9 +79,21 @@ const BodyItem = ({ icon, title }: { icon?: JSX.Element; title: string }) => {
           <span className="scale-150">{icon}</span>
           <h1 className="text-3xl font-semibold">{title}</h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 me-4">
           <ImageIcon className="w-5 h-5" />
-          <MoreHorizontal className="w-5 h-5" />
+
+          {/* For dropdown menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <MoreHorizontal className="w-5 h-5 hover:bg-[#396267]" />{' '}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="me-10">
+              <div>
+                <h1>hELLO</h1>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* Till here */}
         </div>
       </header>
       {/* Scrollable Content */}
@@ -86,7 +107,7 @@ const BodyItem = ({ icon, title }: { icon?: JSX.Element; title: string }) => {
 
       {/* absolute bottom-15 w-full  px-4 py-2 space-y-1  */}
       <div className="px-4 py-1 pb-15 space-y-1">
-        <TodoForm />
+        <TodoForm text="Add a task" num={true} />
       </div>
     </div>
   );

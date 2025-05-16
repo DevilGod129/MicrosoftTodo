@@ -1,42 +1,49 @@
-import { Plus, Circle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Circle, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
-import { addTodo } from '../../features/todoSlice';
-import { RootState } from '../../app/store';
-import { cn } from '@/lib/utils';
+import { AppDispatch, RootState } from '../../app/store';
+import { add_sub_todo } from '../../features/todoSlice';
 
-function TodoForm({ text, num }: { text: string; num?: boolean }) {
+function SubTodoForm({
+  text,
+  num,
+  id,
+}: {
+  text: string;
+  num?: boolean;
+  id?: string | undefined;
+}) {
   const [input, setInput] = useState('');
   const [isFocused, setisFocused] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  let active_id = useSelector(
-    (state: RootState) => state.ActiveList.active_list_id
+  let active_todo = useSelector(
+    (state: RootState) => state.ActiveTodo.active_todo_id
   );
 
   const add = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (input === null || input.trim() === '') return;
 
-    if (!active_id) {
-      dispatch(addTodo({ list_id: '1000', text: input }));
+    if (active_todo) {
+      dispatch(add_sub_todo({ todoId: id, textContent: input }));
     }
-    dispatch(addTodo({ list_id: active_id, text: input }));
+
     setInput('');
   };
   return (
     <form
       onSubmit={add}
       className={cn(
-        'w-full h-12 rounded-lg  hover:bg-[#2D2F2F] hover:cursor-text',
+        'w-full h-12 rounded-lg   hover:cursor-text',
         num ? 'bg-[#1c2529]' : 'bg-[#2a2a2a]'
       )}
     >
       <div className="flex items-center gap-3 px-4 py-3">
         {isFocused ? (
-          <Circle className="size-5 text-white" />
+          <Circle className="size-4 text-white" />
         ) : (
-          <Plus className="size-5 text-white" />
+          <Plus className="size-4 text-white" />
         )}
         <input
           type="text"
@@ -52,4 +59,4 @@ function TodoForm({ text, num }: { text: string; num?: boolean }) {
   );
 }
 
-export default TodoForm;
+export default SubTodoForm;
