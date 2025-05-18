@@ -2,11 +2,21 @@ import { AppDispatch, RootState } from '@/app/store';
 import { setActiveTodo } from '@/features/activeSlice';
 
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  addTodo,
+  del_sub_todo,
   deleteTodo,
   importantTodo,
   toggle_sub_todo,
   toggleTodo,
 } from '@/features/todoSlice';
+import { cn } from '@/lib/utils';
 import {
   CircleCheck,
   EllipsisVertical,
@@ -17,16 +27,6 @@ import {
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import SubTodoForm from '../todos/SubTodoForm';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 function Sidebarhidden({ todo_id }: any) {
   const todo = useSelector((state: RootState) => state.Todo.todos);
@@ -146,11 +146,30 @@ const SidebarhiddenItem = ({
   const unique_subtodo = unique_todo?.subtodo.find(
     (todo) => todo.subtodo_id === sub_id
   );
+  let activeId = useSelector(
+    (state: RootState) => state.ActiveList.active_list_id
+  );
   const checked = unique_subtodo?.subtodo_completed;
   const dispatch = useDispatch<AppDispatch>();
 
+  // Handling clicks:
+
   const handleSubTodoCompleted = () => {
     dispatch(toggle_sub_todo({ subTodoId: sub_id, TodoId: id }));
+  };
+
+  const handleDeletesubTodo = () => {
+    dispatch(
+      del_sub_todo({
+        todoId: unique_todo?.todo_id,
+        subtodoId: unique_subtodo?.subtodo_id,
+      })
+    );
+  };
+
+  const handlePromote = () => {
+    dispatch(addTodo({ list_id: activeId, text: text }));
+    handleDeletesubTodo();
   };
 
   return (
@@ -178,16 +197,21 @@ const SidebarhiddenItem = ({
             <EllipsisVertical className="w-5 h-5 text-white" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-60 rounded-none">
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleSubTodoCompleted}>
               <CircleCheck className="size-5" />
               Mark as Completed
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Plus className="size-5" />
-              Promote to Task
-            </DropdownMenuItem>
+            {!checked ? (
+              <DropdownMenuItem onSelect={handlePromote}>
+                <Plus className="size-5" />
+                Promote to Task
+              </DropdownMenuItem>
+            ) : null}
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:bg-[#3c444c] text-red-500 hover:text-red-500">
+            <DropdownMenuItem
+              className="hover:bg-[#3c444c] text-red-500 hover:text-red-500"
+              onSelect={handleDeletesubTodo}
+            >
               <Trash2 className="size-5 text-red-500" />
               Delete
             </DropdownMenuItem>

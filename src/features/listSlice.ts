@@ -2,6 +2,7 @@ import { createSlice, nanoid } from '@reduxjs/toolkit';
 interface ListSlice {
   lists: NewList[];
   availableIds: number[];
+  last_added_id: string | null;
 }
 interface NewList {
   num_id?: number;
@@ -11,6 +12,7 @@ interface NewList {
 }
 const initialState: ListSlice = {
   lists: [],
+  last_added_id: null,
   availableIds: Array.from({ length: 101 }, (_, i) => i), // Store available IDs,
 };
 
@@ -29,18 +31,25 @@ export const ListSlice = createSlice({
         id: nanoid(),
         
       };
-
       state.lists.push(add_new_list);
+      state.last_added_id = add_new_list.id
     },
 
+    // renameList: (state, action) => {
+    //   const { id, new_name, num_id } = action.payload;
+    //   state.lists = state.lists.map((list) =>
+    //     list.id === id ? { ...list, name: new_name } : list
+    //   );
+    //   state.availableIds.push(num_id);
+    //   state.availableIds.sort((a, b) => a - b);
+    // },
     renameList: (state, action) => {
-      const { id, new_name, num_id } = action.payload;
-      state.lists = state.lists.map((list) =>
-        list.id === id ? { ...list, name: new_name } : list
-      );
-      state.availableIds.push(num_id);
-      state.availableIds.sort((a, b) => a - b);
-    },
+  const { id, new_name } = action.payload;
+  state.lists = state.lists.map((list) =>
+    list.id === id ? { ...list, name: new_name } : list
+  );
+},
+
 
     deleteList: (state, action) => {
       const { id, num_id } = action.payload;

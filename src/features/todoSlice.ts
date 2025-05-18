@@ -108,8 +108,8 @@ export const TodoSlice = createSlice({
 
         del_sub_todo : (state,action:{
             payload : {
-                todoId: string,
-                subtodoId: string,
+                todoId: string | undefined,
+                subtodoId: string | undefined,
             }
         }) => {
 
@@ -117,8 +117,10 @@ export const TodoSlice = createSlice({
             const TodoId = action.payload.todoId
             const subTodoId = action.payload.subtodoId
 
-            state.todos.find((v) => v.todo_id == TodoId)?.subtodo.filter((todo) => todo.subtodo_id !== subTodoId)
-
+            const todo = state.todos.find((v) => v.todo_id === TodoId)
+    if (todo) {
+        todo.subtodo = todo.subtodo.filter((sub) => sub.subtodo_id !== subTodoId)
+    }
         },
 
         edit_sub_todo : (state,action:{
